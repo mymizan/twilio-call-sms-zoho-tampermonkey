@@ -1,10 +1,15 @@
 // ==UserScript==
 // @name         Twilio Call And  SMS - Zoho CRM
+// @updateURL    https://openuserjs.org/meta/mymizan/My_Script.meta.js
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  try to take over the world!
-// @author       You
-// @match        https://crm.zoho.com/*
+// @version      1.0
+// @description  Twilio call and SMS integration for zoho
+// @copyright 2016, Md Yakub Mizan (http://mymizan.rocks)
+// @license MIT; http://mymizan.rocks
+// @homepageURL http://mymizan.rocks
+// @supportURL http://mymizan.rocks
+// @icon      https://img.zohostatic.com/crm/t234/images/favicon.ico
+// @match     https://crm.zoho.com/*
 // @require  https://gist.github.com/raw/2625891/waitForKeyElements.js
 // @grant    GM_addStyle
 // ==/UserScript==
@@ -13,9 +18,9 @@
     'use strict';
     waitForKeyElements ("#header_PHONE", actionFunction);
     waitForKeyElements ("#header_MOBILE", AnotheractionFunction);
-    
-    
-    
+
+
+
     /***
     ** Add Nodes to DOM
     **/
@@ -27,8 +32,8 @@
         $('#header_MOBILE').append(html1);
         $('body').append("<iframe id='twilioPage' style='display:none;' src='/crm/ShowSetup.do?tab=webInteg&subTab=otherApps&appname=telephony'></iframe>");
     }
-    
-    
+
+
     /**
     ** Handle Number Changing
     **/
@@ -40,14 +45,14 @@
         var save_context = this;
         var csrf_token = $('#twilioPage').contents().find('input[name=crmcsrfparam]').val();
         $.post('https://crm.zoho.com/crm/CtiApiConfig.do',
-               {crmcsrfparam:csrf_token, userid:'2135217000000106005', mode:'type3editoutgoing', ctinumber:twilio_phone_number}, 
+               {crmcsrfparam:csrf_token, userid:'2135217000000106005', mode:'type3editoutgoing', ctinumber:twilio_phone_number},
                function(data){
             $('.calliconOuter', $(save_context).parent().parent()).click();
         });
     });
-    
-    
-    
+
+
+
     /**
     ** SMS Sending Function
     **/
