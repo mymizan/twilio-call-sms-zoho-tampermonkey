@@ -40,7 +40,8 @@
 (function() {
     'use strict';
     waitForKeyElements ("#header_PHONE", actionFunction);
-    waitForKeyElements ("#header_MOBILE", AnotheractionFunction);
+    //waitForKeyElements ("#header_MOBILE", AnotheractionFunction);
+    waitForKeyElements ("#secHead_CustomModule1_Information", actionFunction);
 
 
 
@@ -53,6 +54,7 @@
         var html2 = "<span> <button class='sendSMS'> SMS </button> </span>";
         $('#header_PHONE').append(html1);
         $('#header_MOBILE').append(html1);
+        $('#secHead_CustomModule1_Information .contHeadInfo').append(html1);
         $('body').append("<iframe id='twilioPage' style='display:none;' src='/crm/ShowSetup.do?tab=webInteg&subTab=otherApps&appname=telephony'></iframe>");
     }
 
@@ -80,8 +82,9 @@
     ** SMS Sending Function
     **/
     function AnotheractionFunction (jNode) {
-        $('.sendSMS').live('click', function(){
-            prompt('Enter SMS');
-        });
+        var mobile = $('#headervalue_MOBILE span').html();
+        var phone = $('#headervalue_PHONE span').html();
+        var send_string = '?mobile=' + mobile + '&phone=' + phone;
+        $('#remainingList #RelatedListCommonDiv').eq(4).after('<iframe src="https://zohocrmtwilioapp-mymizan.rhcloud.com/sms.php' + send_string + '" style="width:100%;height:700px;overflow:hidden;border:none;outline:none;"></iframe>');
     }
 })();
