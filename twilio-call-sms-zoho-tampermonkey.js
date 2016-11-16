@@ -41,7 +41,7 @@
     'use strict';
     waitForKeyElements ("#header_PHONE", actionFunction);
     //waitForKeyElements ("#header_MOBILE", AnotheractionFunction);
-    waitForKeyElements ("#secHead_CustomModule1_Information", actionFunction);
+    waitForKeyElements ("#secHead_CustomModule1_Information", AnotherSMSFunction);
 
 
 
@@ -87,4 +87,27 @@
         var send_string = '?mobile=' + mobile + '&phone=' + phone;
         $('#remainingList #RelatedListCommonDiv').eq(4).after('<iframe src="https://zohocrmtwilioapp-mymizan.rhcloud.com/sms.php' + send_string + '" style="width:100%;height:700px;overflow:hidden;border:none;outline:none;"></iframe>');
     }
+    
+    /**
+    * Changing number for SMS extension
+    **/
+    function AnotherSMSFunction(jNode){
+        var html1 = "<span> From </span> <span> <select class='twilioFromSms'><option>Select</option><option> +18602000045</option><option> +12027512775</option> </select> </span>";
+        $('#secHead_CustomModule1_Information .contHeadInfo').append(html1);
+        $('body').append("<iframe id='twilioSmsExtensionPage' style='display:none;' src='/crm/ShowSetup.do?tab=webInteg&subTab=marketPlace&nameSpace=twilio&portalName=platform'></iframe>");
+    }
+    
+    /**
+    ** Handle SMS Number Changing
+    **/
+    $('.twilioFromSms').live('change',function(){
+        var twilio_phone_number = $('option:selected', $(this)).text();
+        if (twilio_phone_number == 'Select'){
+            return false;
+        }
+        $('#twilioSmsExtensionPage').contents().find('#orgVariableForm #cov_fupdate_id_2135217000000224818').val(twilio_phone_number);
+        $('#twilioSmsExtensionPage').contents().find('#orgVariableForm input[name=Submit]').click();
+        //$('#orgVariableForm #cov_fupdate_id_2135217000000224818').val(twilio_phone_number);
+        //$('#orgVariableForm input[name=Submit]').click();
+    });
 })();
